@@ -15,20 +15,61 @@ EcoLoop Web Styleguide for palette, typography, components and iconography.
 
 ## Run it
 
+**Requirements:** PHP 8.1 or newer. That's the whole list — no `composer install`,
+no `npm install`, no build step, no database, no web server config.
+
 ```bash
+git clone https://github.com/jere5188-dev/Ecoloop2.git
+cd Ecoloop2
 php -S localhost:8000 -t public
-# then open http://localhost:8000
 ```
 
-Requires PHP 8.1+ (uses `never` return types, `readonly`-era syntax and `match`).
-Nothing else — no `composer install`, no `npm install`.
+Then open **http://localhost:8000**. Stop the server with `Ctrl+C`.
 
-A convenience script is included:
+The `-t public` matters: `public/` is the document root, and the application code in
+`app/` deliberately sits outside it.
+
+<details>
+<summary>Check your PHP version</summary>
 
 ```bash
-bash tools/serve.sh 8000      # start detached
-bash tools/smoke.sh           # lint + render every route + walk the pickup wizard
+php -v      # need 8.1+
 ```
+
+Verified on PHP 8.2 and 8.4. If `php` is missing: `brew install php` (macOS),
+`sudo apt install php-cli` (Debian/Ubuntu), or grab it from
+[windows.php.net](https://windows.php.net/download/).
+</details>
+
+<details>
+<summary>Optional helper scripts</summary>
+
+```bash
+bash tools/serve.sh            # start detached on :8000 (writes a pid file)
+bash tools/serve.sh 8080       # ...on another port
+bash tools/serve.sh stop       # stop it
+
+bash tools/smoke.sh            # lint + render every route + walk the pickup wizard
+
+php tools/request.php GET /passbook          # render one route to stdout, no server
+php tools/request.php POST /pickup "step=1&location=dormitory&contact=0812345678"
+```
+</details>
+
+### Pages to visit
+
+| URL | Feature |
+| --- | --- |
+| `/` | Dashboard — condensed widgets from all five features |
+| `/passbook` | Waste Passbook ledger (try the category filter chips) |
+| `/impact` | Impact Metric (try the This Week / This Month / All Time tabs) |
+| `/sorting` | Smart Sorting (press the shutter to run a detection) |
+| `/pickup` | Waste Pickup wizard (submit an empty step to see server-side validation) |
+| `/competition` | EcoPoints & Gamify |
+| `/profile` | Profile |
+
+To see the three responsive layouts, open DevTools device toolbar and set the width
+below 768px, between 768–1023px, and above 1024px.
 
 ---
 
